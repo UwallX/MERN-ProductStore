@@ -3,6 +3,7 @@
 ## Tecnologias
 - Frontend
 1. Vite (ReactJS)
+2. Chakra UI
 
 - Backend
 1. Mongoose
