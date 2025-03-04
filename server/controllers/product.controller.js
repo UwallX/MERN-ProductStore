@@ -30,14 +30,16 @@ const createNewProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const fields = req.body;
+  let fields = req.body;
   const { id } = req.params;
 
   if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ success: false, message: 'ID inválido.' });
 
+  fields = Object.fromEntries(Object.entries(fields).filter(([_, value]) => value.trim() !== ''));
+
   try {
     const updatedProduct = await Product.findByIdAndUpdate(id, fields, { new: true });
-    res.status(200).json({ success: true, data: updatedProduct });
+    res.status(200).json({ success: true, message: 'Produto atualizado com sucesso', data: updatedProduct });
   } catch (error) {
     console.error('> Error while updating product: ', error.message);
     res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
