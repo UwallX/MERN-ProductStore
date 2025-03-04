@@ -1,8 +1,8 @@
 import { Container, Heading, VStack, Box, Input, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { useProductStore } from "../../store/product";
 import toast from 'react-hot-toast';
+import { useProductsQuery } from "../../hooks/useProductsQuery";
 
 const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm({
@@ -13,10 +13,10 @@ const CreatePage = () => {
     }
   });
 
-  const { createProduct } = useProductStore();
+  const { createProduct } = useProductsQuery();
 
   const onSubmitData = async (data) => {
-    const { success, message } = await createProduct(data);
+    const { success, message } = await createProduct.mutateAsync(data);
     if(success) {
       toast.success(message);
       reset();
@@ -28,8 +28,17 @@ const CreatePage = () => {
   return (
     <Container maxW={"container.sm"}>
       <VStack padding={8}>
-        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
-          Criar novo produto
+        <Heading
+          as={"h1"}
+          size={"2xl"}
+          textAlign={"center"}
+          mb={8}
+          bgGradient="to-r"
+          gradientFrom="cyan.400"
+          gradientTo={"blue.500"}
+          bgClip={"text"}
+        >
+          Criar novo produto 🏷️
         </Heading>
 
         <Box
